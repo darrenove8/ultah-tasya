@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spesial Untukmu</title>
+<style>
+  /* --- STYLING DASAR & BACKGROUND --- */
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+  
+  body { 
+    font-family: 'Nunito', sans-serif; 
+    background: linear-gradient(135deg, #1f2c44 0%, #2a3f5f 100%);
+    color: white; 
+    text-align: center; 
+    margin: 0; 
+    padding: 0; 
+    overflow-x: hidden; 
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Animasi Lingkaran/Gelembung di Background */
+  .bg-circles {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden;
+    z-index: -1;
+  }
+  .bg-circles li {
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px; height: 20px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: animate 25s linear infinite;
+    bottom: -150px;
+  }
+  .bg-circles li:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+  .bg-circles li:nth-child(2) { left: 10%; width: 40px; height: 40px; animation-delay: 2s; animation-duration: 12s; }
+  .bg-circles li:nth-child(3) { left: 70%; width: 60px; height: 60px; animation-delay: 4s; }
+  .bg-circles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+  .bg-circles li:nth-child(5) { left: 65%; width: 40px; height: 40px; animation-delay: 0s; }
+  .bg-circles li:nth-child(6) { left: 75%; width: 90px; height: 90px; animation-delay: 3s; }
+  .bg-circles li:nth-child(7) { left: 35%; width: 120px; height: 120px; animation-delay: 7s; }
+  .bg-circles li:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+  .bg-circles li:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+  .bg-circles li:nth-child(10) { left: 85%; width: 100px; height: 100px; animation-delay: 0s; animation-duration: 11s; }
+
+  @keyframes animate {
+    0% { transform: translateY(0) scale(1); opacity: 1; border-color: rgba(255,255,255,0.2); }
+    100% { transform: translateY(-1000px) scale(1.5); opacity: 0; }
+  }
+
+  /* --- CONTAINER KARTU (GLASSMORPHISM) --- */
+  .step-container { display: none; width: 100%; max-width: 450px; padding: 20px; box-sizing: border-box; }
+  .step-container.active { display: block; animation: fadeIn 0.8s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gif-circle {
+    width: 110px; height: 110px;
+    background: white;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    overflow: hidden;
+  }
+  .gif-circle img { width: 90%; height: 90%; object-fit: contain; }
+
+  .title-text { font-size: 1.3em; font-weight: 700; margin-bottom: 30px; }
+
+  /* Input Nama */
+  .input-name {
+    width: 80%;
+    padding: 12px 15px;
+    border-radius: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 1.1em;
+    font-family: inherit;
+    text-align: center;
+    margin-bottom: 25px;
+    outline: none;
+    transition: all 0.3s;
+  }
+  .input-name::placeholder { color: rgba(255, 255, 255, 0.7); }
+  .input-name:focus { border-color: white; background: rgba(255, 255, 255, 0.25); box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+
+  .btn-pink {
+    background: #e36a8d;
+    border: 2px solid white;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: bold;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(227, 106, 141, 0.4);
+    transition: all 0.3s;
+  }
+  .btn-pink:hover { transform: scale(1.05); background: #d05b7c; }
+
+  /* --- SURAT / ENVELOPE (DIPERBAIKI) --- */
+  .envelope-wrapper { 
+    position: relative; width: 220px; height: 150px; 
+    margin: 40px auto; cursor: pointer; 
+    border-radius: 0 0 10px 10px; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3); 
+  }
+  .envelope-back { 
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+    background: #c24a6e; border-radius: 0 0 10px 10px; z-index: 1; 
+  }
+  .letter {
+    position: absolute; bottom: 10px; left: 5%; width: 90%; height: 120px;
+    background: white; color: #333; z-index: 2; transition: transform 0.6s;
+    border-radius: 5px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-weight: bold; font-size: 1.1em;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .envelope-front {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
+    background: #e36a8d; z-index: 3;
+    clip-path: polygon(0 100%, 100% 100%, 100% 0, 50% 65%, 0 0);
+    border-radius: 0 0 10px 10px;
+  }
+  .envelope-flap {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: #d05b7c; z-index: 4;
+    clip-path: polygon(0 0, 100% 0, 50% 65%);
+    transform-origin: top; transition: transform 0.6s;
+  }
+  
+  /* Animasi Saat Amplop Terbuka */
+  .envelope-wrapper.open .envelope-flap { transform: rotateX(180deg); z-index: 1; }
+  .envelope-wrapper.open .letter { transform: translateY(-75px); }
+
+  /* --- SLIDER TAHUN --- */
+  .slider-container { width: 100%; display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+  input[type=range] { flex-grow: 1; accent-color: #e36a8d; cursor: pointer; }
+  .year-display { font-size: 1.2em; font-weight: 800; color: #e36a8d; }
+
+  /* --- GAME KARTU --- */
+  #game-board { 
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 8px; 
+    margin-top: 20px; 
+    width: 100%;
+  }
+  .card { 
+    aspect-ratio: 1; 
+    background-color: #e36a8d; 
+    border-radius: 10px; 
+    display: flex; align-items: center; justify-content: center; 
+    font-size: 2em; cursor: pointer; color: transparent; 
+    transition: transform 0.4s; box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .card.flipped { background-color: #fff; color: #000; transform: rotateY(180deg); cursor: default; }
+
+  /* --- KATA-KATA AKHIR & POPUP --- */
+  #final-text-container p { font-size: 1.1em; line-height: 1.6; margin-bottom: 20px; min-height: 25px; }
+  .popup-btn {
+    display: none; opacity: 0; transform: scale(0.5) translateY(20px);
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); margin-top: 20px;
+  }
+  .popup-btn.show { opacity: 1; transform: scale(1) translateY(0); display: inline-block; }
+
+  /* --- GALERI --- */
+  #gallery-section { padding: 40px 20px; width: 100%; max-width: 1000px; box-sizing: border-box; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; margin-top: 30px; }
+  .frame {
+    background: #fff; padding: 15px 15px 25px 15px; border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center;
+    color: #333; transition: transform 0.3s;
+  }
+  .frame:hover { transform: translateY(-5px); }
+  .frame img { width: 100%; height: 280px; object-fit: cover; border-radius: 4px; background-color: #eee; }
+  .frame p { margin-top: 15px; font-style: italic; font-weight: 600; font-size: 0.95em; }
+
+</style>
+</head>
+<body>
+<audio id="bg-music" loop>
+  <source src="https://res.cloudinary.com/djgiwbgrq/video/upload/v1781941701/vidssave.com_EEEE_A_256KBPS_1_ldsxo6.mp3" type="audio/mpeg">
+</audio>
+<ul class="bg-circles">
+  <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+</ul>
+
+<div id="step1" class="step-container active">
+  <div class="glass-card">
+    <div class="gif-circle">
+      <img src="https://res.cloudinary.com/djgiwbgrq/image/upload/v1781934375/bday_tkv41e.gif" alt="Cute Bear">
+    </div>
+    <div class="title-text">Alooo Kamuuu! 🥳</div>
+    <button class="btn-pink" onclick="nextStep(1, 2)">Mulai</button>
+  </div>
+</div>
+
+<div id="step2" class="step-container">
+  <div style="margin-top: 50px;">
+    <p style="font-size: 1.2em; font-weight: bold; margin-bottom: 0;">Ada pesan buat kamu nih!</p>
+    <p style="font-size: 0.9em; opacity: 0.8;">(Klik amplopnya ya)</p>
+    
+    <div class="envelope-wrapper" id="envelope-body" onclick="openEnvelope()">
+      <div class="envelope-back"></div>
+      <div class="letter">
+        <p style="margin-bottom: 5px;">Alooo Kamuu! ✨</p>
+        <img src="https://res.cloudinary.com/djgiwbgrq/image/upload/v1781934393/love-letter_tgmt2i.gif" width="40" alt="Bear">
+      </div>
+      <div class="envelope-front"></div>
+      <div class="envelope-flap"></div>
+    </div>
+
+  </div>
+</div>
+
+<div id="step3" class="step-container">
+  <div class="glass-card">
+    <div class="gif-circle">
+      <img src="https://res.cloudinary.com/djgiwbgrq/image/upload/v1781939568/what_s-your-name-sebastian_dhnhxf.gif" alt="Waving Bear">
+    </div>
+    <div class="title-text">Boleh tau nama kamu? 😊</div>
+    <input type="text" id="user-name" class="input-name" placeholder="Ketik namamu di sini..." autocomplete="off">
+    <button class="btn-pink" onclick="nextStep(3, 4)">Lanjutkan</button>
+  </div>
+</div>
+
+<div id="step4" class="step-container">
+  <div class="glass-card">
+    <div class="gif-circle">
+      <img src="https://res.cloudinary.com/djgiwbgrq/image/upload/v1781934404/pengu-pudgy_tyn2lg.gif" alt="Thinking Bear">
+    </div>
+    <div class="title-text">Tahun Lahir Kamu? 🤔</div>
+    <div class="slider-container">
+      <input type="range" min="1995" max="2015" value="2000" id="year-slider" oninput="updateYear()">
+      <span class="year-display" id="year-val">2000</span>
+    </div>
+    <button class="btn-pink" onclick="nextStep(4, 5)">Lanjutkan</button>
+  </div>
+</div>
+
+<div id="step5" class="step-container">
+  <div class="glass-card">
+    <div class="title-text" style="margin-bottom: 10px;">Memory Game 🎮</div>
+    <p style="font-size: 0.9em; margin-bottom: 20px;">Cocokkan kartu-kartu ini yaa! 😋</p>
+    <div id="game-board"></div>
+  </div>
+</div>
+
+<div id="step6" class="step-container">
+  <div class="glass-card">
+    <div class="gif-circle">
+      <img src="https://res.cloudinary.com/djgiwbgrq/image/upload/v1781935589/good-luck-best-of-luck_pc9q0c.gif" alt="Celebrate Bear">
+    </div>
+    <div id="final-text-container" style="text-align: center; width: 100%;">
+      <p id="text-1" style="font-weight: bold;"></p>
+      <p id="text-2"></p>
+      <p id="text-3"></p>
+      <p id="text-4" style="font-weight: bold; color: #ffd700;"></p>
+    </div>
+    <button id="btn-gallery" class="btn-pink popup-btn" onclick="goToGallery()">Lihat Galeri ✨</button>
+  </div>
+</div>
+
+<div id="step7" class="step-container" style="max-width: 1000px; padding:0;">
+  <div id="gallery-section">
+    <h2 style="font-size: 2.2em; margin-bottom: 10px;">Galeri Kenangan 📸</h2>
+    <p style="opacity: 0.8; margin-bottom: 30px;">Scroll ke bawah yaa...</p>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</div>
+
+<script>
+  // --- FUNGSI PINDAH HALAMAN + PUTAR MUSIK ---
+  function nextStep(current, next) {
+    // Pemicu musik berputar saat pertama kali tombol 'Mulai' diklik (pindah dari step 1 ke 2)
+    if (current === 1) {
+      const musik = document.getElementById('bg-music');
+      musik.play().catch(error => {
+        console.log("Autoplay diblokir oleh browser, musik akan menyala setelah interaksi berikutnya.");
+      });
+    }
+
+    document.getElementById('step' + current).classList.remove('active');
+    setTimeout(() => {
+      document.getElementById('step' + next).classList.add('active');
+      // Pemicu fungsi khusus di halaman tertentu
+      if(next === 5) initGame();
+      if(next === 6) startTypingEffect();
+    }, 100); 
+  }
+
+  // --- FUNGSI AMPLOP SURAT ---
+  function openEnvelope() {
+    const env = document.getElementById('envelope-body');
+    if(!env.classList.contains('open')) {
+      env.classList.add('open');
+      // Pindah ke halaman NAMA (step 3) setelah 2.5 detik agar animasi surat selesai terlihat
+      setTimeout(() => { nextStep(2, 3); }, 2500); 
+    }
+  }
+
+  // --- FUNGSI SLIDER TAHUN ---
+  function updateYear() {
+    document.getElementById('year-val').innerText = document.getElementById('year-slider').value;
+  }
+
+  // --- FUNGSI MEMORY GAME ---
+  const symbols = ['🌹','🌹','✨','✨','💖','💖','🥳','🥳','🎁','🎁','🌻','🌻'];
+  let flippedCards = [];
+  let matchedPairs = 0;
+
+  function shuffle(array) { return array.sort(() => Math.random() - 0.5); }
+
+  function initGame() {
+    const board = document.getElementById('game-board');
+    board.innerHTML = '';
+    matchedPairs = 0;
+    flippedCards = [];
+    const cards = shuffle([...symbols]);
+    cards.forEach((symbol) => {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.dataset.symbol = symbol;
+      card.onclick = () => flipCard(card);
+      board.appendChild(card);
+    });
+  }
+
+  function flipCard(card) {
+    if (flippedCards.length < 2 && !card.classList.contains('flipped')) {
+      card.classList.add('flipped');
+      card.innerText = card.dataset.symbol;
+      flippedCards.push(card);
+      if (flippedCards.length === 2) {
+        setTimeout(checkMatch, 600);
+      }
+    }
+  }
+
+  function checkMatch() {
+    const [card1, card2] = flippedCards;
+    if (card1.dataset.symbol === card2.dataset.symbol) {
+      matchedPairs++;
+      if (matchedPairs === symbols.length / 2) {
+        // Jika menang, pindah ke kata-kata akhir (step 6)
+        setTimeout(() => { nextStep(5, 6); }, 1000);
+      }
+    } else {
+      card1.classList.remove('flipped');
+      card2.classList.remove('flipped');
+      card1.innerText = '';
+      card2.innerText = '';
+    }
+    flippedCards = [];
+  }
+
+  // --- FUNGSI KATA-KATA AKHIR DINAMIS (MEMAKAI NAMA & USIA) ---
+  let messages = [];
+  let msgIndex = 0;
+  let charIndex = 0;
+
+  function startTypingEffect() {
+    if (messages.length === 0) {
+      // Ambil Nama
+      let inputNama = document.getElementById('user-name').value.trim();
+      let namaPanggilan = inputNama !== "" ? inputNama : "Kamu";
+      
+      // Ambil Tahun dari Slider dan Hitung Usia (Tahun Sekarang: 2026)
+      let tahunLahir = parseInt(document.getElementById('year-slider').value);
+      let tahunSekarang = 2026; 
+      let usia = tahunSekarang - tahunLahir;
+      
+      messages = [
+        `Cieee bertambah usianya nih ${namaPanggilan} yang ke-${usia} tahun! 🥳`,
+        `Semoga di usia yang ke-${usia} ini, ${namaPanggilan} selalu dikelilingi kebahagiaan, kesehatan, dan semoga segala doa serta cita-citamu bisa terwujud 🤲`,
+        `Dan semoga hari ini menjadi awal dari tahun yang penuh keberkahan dan kebahagiaan untukmu yaa 🌻`,
+        `Wish you all the best, ${namaPanggilan}! 🎉`
+      ];
+    }
+
+    if (msgIndex < messages.length) {
+      if (charIndex < messages[msgIndex].length) {
+        document.getElementById(`text-${msgIndex+1}`).innerHTML += messages[msgIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(startTypingEffect, 40); 
+      } else {
+        msgIndex++;
+        charIndex = 0;
+        setTimeout(startTypingEffect, 500); 
+      }
+    } else {
+      // Munculkan tombol galeri pop up
+      const btn = document.getElementById('btn-gallery');
+      btn.style.display = 'inline-block';
+      setTimeout(() => { btn.classList.add('show'); }, 100);
+    }
+  }
+
+  // --- FUNGSI GALERI POLAROID ---
+  function goToGallery() {
+    nextStep(6, 7);
+    renderGallery();
+  }
+
+  const motivasi = [
+    "Langkah kecil setiap hari membawamu ke tujuan yang besar.",
+    "Percaya pada dirimu, kamu jauh lebih kuat dari yang kamu kira.",
+    "Setiap hari adalah kesempatan baru untuk bersinar.",
+    "Jangan takut gagal, takutlah jika kamu tidak pernah mencoba.",
+    "Masa depan adalah milik mereka yang percaya pada mimpinya.",
+    "Teruslah melangkah, badai paling deras pun pasti berlalu.",
+    "Kegagalan hanyalah guru yang mengarahkanmu menuju sukses.",
+    "Fokuslah pada prosesnya, bukan hanya pada hasil akhirnya.",
+    "Semangat terus! Hal hebat selalu membutuhkan waktu.",
+    "Kamu sangat berharga, dan setiap usahamu itu berarti."
+  ];
+
+  const fotoGaleri = [
+    "https://res.cloudinary.com/djgiwbgrq/image/upload/v1781932770/WhatsApp_Image_2026-06-19_at_19.17.16_1_roignz.jpg",
+    "https://res.cloudinary.com/djgiwbgrq/image/upload/v1781932957/WhatsApp_Image_2026-06-19_at_19.17.15_2_ofqcig.jpg",
+    "https://res.cloudinary.com/djgiwbgrq/image/upload/v1781932958/WhatsApp_Image_2026-06-19_at_19.17.15_3_zguuoy.jpg",
+    "https://res.cloudinary.com/djgiwbgrq/image/upload/v1781932958/WhatsApp_Image_2026-06-19_at_19.17.14_1_xwvguv.jpg",
+    "https://res.cloudinary.com/djgiwbgrq/image/upload/v1781933361/WhatsApp_Image_2026-06-19_at_19.17.15_wyehqz.jpg",
+    "https://res.cloudinary.com/djgiwbgrq/image/upload/v1781932959/WhatsApp_Image_2026-06-19_at_19.17.14_x0pt5m.jpg",
+    "https://res.cloudinary.com/djgiwbgrq/image/upload/v1781933358/WhatsApp_Image_2026-06-19_at_19.17.13_avdzmq.jpg",
+    "https://res.cloudinary.com/djgiwbgrq/image/upload/v1781933360/WhatsApp_Image_2026-06-19_at_19.17.16_ic8a6z.jpg",
+    "https://res.cloudinary.com/djgiwbgrq/image/upload/v1781932960/WhatsApp_Image_2026-06-19_at_19.17.14_2_pbslp0.jpg",
+    "https://res.cloudinary.com/djgiwbgrq/image/upload/v1781933362/WhatsApp_Image_2026-06-19_at_19.17.15_1_ihwgxe.jpg"
+  ];
+
+  function renderGallery() {
+    const grid = document.getElementById('gallery-grid');
+    grid.innerHTML = ''; 
+    for(let j = 0; j < 10; j++) {
+      const frame = document.createElement('div');
+      frame.className = 'frame';
+      frame.innerHTML = `
+        <img src="${fotoGaleri[j]}" alt="Memori ${j+1}">
+        <p>"${motivasi[j]}"</p>
+      `;
+      grid.appendChild(frame);
+    }
+  }
+</script>
+</body>
+</html>
